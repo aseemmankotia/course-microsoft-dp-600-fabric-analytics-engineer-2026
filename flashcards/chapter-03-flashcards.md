@@ -1,0 +1,16 @@
+## Chapter 3: Lifecycle Management: Git, Deployment Pipelines, CI/CD & Capacity — Flashcards
+
+| # | Front (Question) | Back (Answer) |
+|---|-----------------|---------------|
+| 1 | Default and allowed range of stages in a Fabric deployment pipeline? | Default: 3 stages (Development, Test, Production). Configurable range: 2–10 stages. Exam tip: don't assume it's fixed at 3. |
+| 2 | Capacity Metrics app monitoring window? | 24-hour rolling window of CU usage. Used to spot sustained overutilization patterns and throttling risk. Exam tip: this is the go-to tool for CU trend analysis, not the Monitoring hub. |
+| 3 | Order of Fabric capacity throttling stages under sustained overuse? | 1) Interactive delay → 2) Interactive rejection → 3) Background rejection. Exam tip: interactive operations degrade before background jobs ever fail. |
+| 4 | Interactive delay stage behavior? | Interactive operations (report loads, queries) still succeed but are slowed down. No error is returned to the user yet. Exam tip: 'slow but works' = delay stage. |
+| 5 | Interactive rejection stage behavior? | Interactive requests are explicitly rejected with an error, while background operations (like scheduled refreshes) may still complete. Exam tip: 'error on open, refresh still works' = rejection, not background rejection. |
+| 6 | Background rejection stage behavior? | The most severe throttling stage — scheduled/background operations (refreshes, pipeline runs) begin failing. Exam tip: this only happens after prolonged, extreme sustained overuse. |
+| 7 | Deployment pipelines vs Git integration — what's the core difference? | Deployment pipelines promote content between workspace stages (Dev→Test→Prod). Git integration syncs ONE workspace with a branch in Azure DevOps/GitHub for version control. Exam tip: they solve different problems and are often used together. |
+| 8 | What does a deployment rule preserve during promotion between stages? | Stage-specific configuration such as data source connection strings or item parameters (e.g., a notebook's default lakehouse). Rules are set on the TARGET stage and persist across future deployments. Exam tip: rules apply going forward, not retroactively to items already deployed. |
+| 9 | What file stores an item's metadata when a workspace is Git-connected? | The .platform file — contains item display name, type, and other metadata alongside the item's content files in the synced repo folder. |
+| 10 | How is Fabric CI/CD automated outside the portal (e.g., Azure DevOps, GitHub Actions)? | Via Fabric REST APIs for Git integration (Connect, Initialize, Commit to Git, Update from Git) and Deployment Pipeline APIs, authenticated with a service principal. Exam tip: service principal support is what enables true pipeline automation. |
+| 11 | F64 capacity SKU — what does '64' represent? | 64 Capacity Units (CUs). Fabric SKU naming directly reflects the CU allocation for that capacity size. Exam tip: SKU number = CU count, useful for sizing/throttling questions. |
+| 12 | What must be enabled before any workspace in a tenant can connect to Git? | The Fabric admin must enable the Git integration tenant setting. Without it, workspace admins cannot configure Azure DevOps/GitHub connections. Exam tip: this is an admin portal prerequisite, tested as a 'why can't I see the Git option' scenario. |
